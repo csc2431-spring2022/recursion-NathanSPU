@@ -12,7 +12,7 @@ unsigned long long int Fibonacci(unsigned int n);
 void PrintReverseString(const string& str, ostream& output = cout);
 // You may change the parameters of these functions
 size_t MinimumPosition(const int array[], size_t size);
-void SelectionSort(int array[], size_t size);
+void SelectionSort(int array[], size_t size, int index = 0);
 
 
 int main() {
@@ -84,15 +84,61 @@ int main() {
 	return 0;
 }
 
-unsigned long long int Fibonacci(unsigned int n){
-	return 0;
+unsigned long long int Fibonacci(unsigned int n) {
+    if (n == 1) {
+        return 1;
+    }
+    else if (n == 0) {
+        return 0;
+    }
+    else {
+        return Fibonacci(n - 1) + Fibonacci(n - 2);
+    }
 }
-void PrintReverseString(const string& str, ostream& output){
+
+void PrintReverseString(const string& str, ostream& output) {
+    if (str.size() == 0) {
+        return;
+    }
+    else {
+    PrintReverseString(str.substr(1), output);
+    output << str[0];
+    }
 }
 // You may change the parameters of these functions
-size_t MinimumPosition(const int array[], size_t size){
-	return 0;
+size_t MinimumPosition(const int array[], size_t size) {
+	if (size <= 1) {
+        return 0;
+    }
+    size_t nextSmallest = MinimumPosition(array + 1, size - 1) + 1;
+    if (array[0] < array[nextSmallest]) {
+        return 0;
+    }
+    else {
+        return nextSmallest;
+    }
 }
-void SelectionSort(int array[], size_t size){
 
+void SelectionSort(int array[], size_t size, int index) {
+    if (index == size) {
+        return;
+    }
+    int i = 0;
+    int j = 0;
+    int indexSmallest = 0;
+    int temp;
+    for (i = 0; i < size - 1; i++) {
+        indexSmallest = i;
+        for (j = i + 1; j < size; j++) {
+            if (array[j] < array[indexSmallest]) {
+                indexSmallest = j;
+            }
+        }
+    if (indexSmallest != index) {
+        temp = array[i];
+        array[i] = array[indexSmallest];
+        array[indexSmallest] = temp;
+    }
+    }
+    SelectionSort(array, size, index + 1);
 }
